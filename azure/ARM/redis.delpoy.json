@@ -1,0 +1,38 @@
+{ "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+"parameters": {
+    "redisName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique server name"
+        }
+  
+  
+      }
+},
+    "resources": [
+        {
+               "apiVersion": "2017-02-01",
+            "type": "Microsoft.Cache/Redis",
+            "name": "[parameters('redisName')]",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "name": "Basic",
+                    "family": "C",
+                    "capacity": 0
+                },
+                "redisConfiguration": {},
+                "enableNonSslPort": false
+            }
+         
+        }
+    ] ,
+    "outputs": {
+        "redisURL": {
+          "value": "[reference(resourceId('Microsoft.Cache/Redis',parameters('redisName'))).hostName]",
+          "type": "string"
+        }
+    
+      }
+}
