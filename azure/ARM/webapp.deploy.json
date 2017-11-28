@@ -1,0 +1,110 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "appName": {
+        "type": "string",
+        "minLength": 1,
+        "metadata": {
+          "description": "Unique name for site"
+        }
+      },
+      "mysqlUsername": {
+        "type": "string",
+        "minLength": 1,
+        "metadata": {
+          "description": "MySQL Username"
+        }
+      },
+      "mysqlPassword": {
+        "type": "securestring",
+        "metadata": {
+          "description": "mysqlpassword"
+        }
+      },
+      "mySQLServerName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique SQL Server Name"
+        }
+      },
+      "redisFQDN": {
+        "type": "string",
+        "metadata": {
+          "description": "redis FQDN"
+        }
+    },
+    "redisPassword": {
+            "type": "securestring",
+            "metadata": {
+              "description": "redis  password"
+            }
+          
+      }
+    },
+  "variables": {
+
+  },
+    "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 2
+            },
+            "kind": "linux",
+            "name": "okpy_plan",
+            "apiVersion": "2016-09-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "workerSizeId": 0,
+                "reserved": true,
+                "hostingEnvironment": ""
+            },
+            "dependsOn": []
+        },
+          {
+             "type": "Microsoft.Web/sites",
+            "kind": "app,linux",
+            "name": "okpy",
+            "apiVersion": "2016-08-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+            },
+            "scale": null,
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'okpy_plan')]"
+            },
+            "resources": [
+                {
+                    "name": "appsettings",
+                    "type": "config",
+                    "apiVersion": "2016-08-01",
+                    "dependsOn": [
+                      "[resourceId('Microsoft.Web/sites', parameters('appName'))]"
+                    ],
+                    "tags": {
+                      "displayName": "appSettings"
+                    },
+                    "properties": {
+                      "DOCKER_CUSTOM_IMAGE_NAME": "marrobi/ok",
+                      "DATABASE_URL":"[concat('mysql://',parameters('mySqlUsername'),'%40',parameters('mySQLServerName'),':',parameters('mysqlPassword'),'@',parameters('mySQLServerName'),'.mysql.database.azure.com:3306/ok')]",
+                       "REDIS_HOST":"[parameters('redisFQDN')]",
+                       "REDIS_PASSWORD":"[parameters('redisPassword')]",
+                       "OK_ENV":"azure_dev"
+                    }
+                  }
+            ],
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', 'okpy_plan')]"
+            ]
+        },
+        
+    ],
+       "outputs": {
+        
+       }
+     }
