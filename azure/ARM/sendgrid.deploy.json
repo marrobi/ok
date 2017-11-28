@@ -1,0 +1,17 @@
+{
+    "name": "[parameters('sendgridAccountName')]",
+    "type": "Sendgrid.Email/accounts",
+    "location": "[resourceGroup().location]",
+    "apiVersion": "2015-01-01",
+    "plan": {
+        "name": "free",
+        "publisher": "Sendgrid",
+        "product": "sendgrid_azure",
+        "promotionCode": ""
+    },
+    "properties": {
+        "password": "[parameters('sendgridPassword')]",
+        "acceptMarketingEmails": "0",
+        "email": ""
+    }
+}

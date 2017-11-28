@@ -1,0 +1,156 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "mySqlUsername": {
+        "type": "string",
+        "minLength": 1,
+        "metadata": {
+          "description": "mySQL USername"
+        }
+      },
+      "mySqlAdminPassword": {
+        "type": "securestring",
+        "metadata": {
+          "description": "mySQL Admin Password"
+        }
+      },
+      "mySqlServerName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique SQL Server Name"
+        }
+      },
+      "redisName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique redis Name"
+        }
+      },
+      "appName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique application Name"
+        }
+      },
+      "templateBaseURL": {
+        "type": "string",
+        "defaultValue": "https://raw.githubusercontent.com/marrobi/ok/marcus_azure/azure/ARM/",
+        "metadata": {
+          "description": "Unique redis Name"
+        }
+      }
+    },
+  "variables": {
+
+  },
+    "resources": [
+      
+      {
+        "name": "MySQL",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2016-09-01",
+        "dependsOn": [
+       
+  
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[concat(parameters('templateBaseURL'),'mysql.deploy.json')]",
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+  
+            "administratorLogin": {
+              "value": "[parameters('mySqlUsername')]"
+            },
+  
+            "administratorLoginPassword": {
+              "value": "[parameters('mySQlAdminPassword')]"
+            },
+          
+            "serverName": {
+              "value": "[parameters('mySQLServerName')]"
+            }
+          }
+        }
+  
+      },
+      {
+        "name": "redis",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2016-09-01",
+        "dependsOn": [
+       
+  
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[concat(parameters('templateBaseURL'),'redis.deploy.json')]",
+       
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+  
+            "redisName": {
+              "value": "[parameters('redisName')]"
+            }
+  
+          }
+        }
+  
+      },
+      {
+        "name": "webapp",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2016-09-01",
+        "dependsOn": [
+       
+          "[concat('Microsoft.Resources/deployments/', 'MySQL')]",
+          "[concat('Microsoft.Resources/deployments/', 'redis')]"
+        ],
+        "properties": {
+          "mode": "Incremental",
+          "templateLink": {
+            "uri": "[concat(parameters('templateBaseURL'),'webapp.deploy.json')]",
+       
+            "contentVersion": "1.0.0.0"
+          },
+          "parameters": {
+            "appName": {
+              "value": "[parameters('appName')]"
+              
+            },
+            "mysqlUsername": {
+              "value": "[parameters('mySqlUsername')]"
+              
+            },
+            "mysqlPassword": {
+              "value": "[parameters('mySQlAdminPassword')]"
+              
+            },
+            "mySQLServerName": {
+              "value": "[parameters('mySQLServerName')]"
+              
+            },
+            "redisFQDN": {
+              "value": "[reference('redis').outputs.redisFQDN.value]"
+              
+          },
+          "redisPassword": {
+            "value": "[reference('redis').outputs.redisPassword.value]"
+            
+                
+            }
+          }
+        }
+  
+      }
+  
+    ],
+    "outputs": {
+     
+    }
+  }

@@ -27,6 +27,7 @@ import shlex
 import urllib.parse
 import mimetypes
 
+
 from server.constants import (VALID_ROLES, STUDENT_ROLE, STAFF_ROLES, TIMEZONE,
                               SCORE_KINDS, OAUTH_OUT_OF_BAND_URI,
                               INSTRUCTOR_ROLE, ROLE_DISPLAY_NAMES)
@@ -78,12 +79,17 @@ class Json(types.TypeDecorator):
 def ok_blob(element, compiler, **kw):
     return "BLOB"
 
+@compiles(mysql.MEDIUMBLOB, 'mssql')
+def ok_blob(element, compiler, **kw):
+    return "varbinary(max)"
 
 @compiles(mysql.MEDIUMTEXT, 'sqlite')
 def ok_text(element, compiler, **kw):
     return "TEXT"
 
-
+@compiles(mysql.MEDIUMTEXT, 'mssql')
+def ok_text(element, compiler, **kw):
+    return "nvarchar(max)"
 class JsonBlob(types.TypeDecorator):
     impl = mysql.MEDIUMBLOB
 

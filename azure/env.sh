@@ -1,0 +1,6 @@
+export DATABASE_URL="mysql://adminmarcus%40tmpmrsql:Password1234@tmpmrsql.mysql.database.azure.com:3306/ok"
+#export DATABASE_URL="Driver={ODBC Driver 13 for SQL Server};Server=tcp:tmpok.database.windows.net,1433;Database=ok1;Uid=adminmarcus@tmpok;Pwd=Password1234;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;"
+# ?useSSL=true&requireSSL=false"
+export REDIS_HOST="tmpmrredis.redis.cache.windows.net" 
+export REDIS_PASSWORD="tlAA6BAUhZg3pAXvLztKCcq5B7Idwa3gU623bWXY1zQ="
+export OK_ENV="azure_dev"

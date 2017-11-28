@@ -34,7 +34,7 @@
           "type": "string"
         },
         "redisPassword": {
-            "value": "[reference(resourceId('Microsoft.Cache/Redis',parameters('redisName'))).listKeys.primarykey]",
+            "value": "[reference(resourceId('Microsoft.Cache/Redis',parameters('redisName'))).accessKeys.primarykey]",
             "type": "string"
           }  
     

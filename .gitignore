@@ -44,3 +44,5 @@ _cache/*
 # local development
 database.db
 *.db
+.vs/ProjectSettings.json
+.vs/*
