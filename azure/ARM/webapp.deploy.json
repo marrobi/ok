@@ -56,7 +56,7 @@
                 "capacity": 2
             },
             "kind": "linux",
-            "name": "okpy_plan",
+            "name": "[concat(parameters('appName'),'_plan')]",
             "apiVersion": "2016-09-01",
             "location": "[resourceGroup().location]",
             "properties": {
@@ -69,14 +69,14 @@
           {
              "type": "Microsoft.Web/sites",
             "kind": "app,linux",
-            "name": "okpy",
+            "name": "[parameters('appName')]",
             "apiVersion": "2016-08-01",
             "location": "[resourceGroup().location]",
             "tags": {
             },
             "scale": null,
             "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'okpy_plan')]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',concat(parameters('appName'),'_plan'))]"
             },
             "resources": [
                 {
@@ -99,9 +99,9 @@
                   }
             ],
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', 'okpy_plan')]"
+                "[resourceId('Microsoft.Web/serverfarms', concat(parameters('appName'),'_plan'))]"
             ]
-        },
+        }
         
     ],
        "outputs": {
