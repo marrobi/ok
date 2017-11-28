@@ -23,16 +23,20 @@
                     "capacity": 0
                 },
                 "redisConfiguration": {},
-                "enableNonSslPort": false
+                "enableNonSslPort": true
             }
          
         }
     ] ,
     "outputs": {
-        "redisURL": {
+        "redisFQDN": {
           "value": "[reference(resourceId('Microsoft.Cache/Redis',parameters('redisName'))).hostName]",
           "type": "string"
-        }
+        },
+        "redisPassword": {
+            "value": "[reference(resourceId('Microsoft.Cache/Redis',parameters('redisName'))).listKeys.primarykey]",
+            "type": "string"
+          }  
     
       }
 }
