@@ -1,24 +1,11 @@
-install python3-dev
+# OK on Azure
 
-. ./azure/config_env.sh
+To do:
+- SSL for redis and mysql
+- OAuth
+- Azure blob storage
+- Production config
 
-worker as a webjob
-
-handle SSL with redis and mysql
-
-
-{
-    "type": "config",
-    "name": "appsettings",
-    "apiVersion": "2015-08-01",
-    "dependsOn": [
-        "[resourceId('Microsoft.Web/sites/', parameters('webAppName'))]",
-        "[resourceId('Sendgrid.Email/accounts', parameters('sendgridAccountName'))]"
-    ],
-    "properties": {
-        "toAddress": "[parameters('toAddress')]",
-        "sendgridSmtpServer": "[reference(resourceId('Sendgrid.Email/accounts', parameters('sendgridAccountName'))).smtpServer]",
-        "sendgridUsername": "[reference(resourceId('Sendgrid.Email/accounts', parameters('sendgridAccountName'))).username]",
-        "sendgridPassword": "[parameters('sendgridPassword')]"
-    }
-}
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmarrobi%2Fok%marcus_azure%2Fazure%2ARM%2Fazure.deploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>

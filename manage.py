@@ -79,10 +79,18 @@ def createdb():
     """ Creates a database with all of the tables defined in
         your SQLAlchemy models
     """
-    db.create_all()
-    setup_default()
+   
 
-
+    try:
+        db.session.query("email FROM User").all()
+        print("User table exist already")
+    # Marcus: exception type?
+    except: 
+        print("User table does not exist, will create tables")
+        db.create_all()
+        setup_default()
+    
+        
 @manager.command
 def dropdb():
     """ Creates a database with all of the tables defined in

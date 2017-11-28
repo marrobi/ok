@@ -39,7 +39,7 @@ RUN ./manage.py assets build
 #RUN ln -s /usr/lib/libcrypto.so.1.0.2 /usr/lib/libcrypto.so.1.0.0  &&   ln -s   /usr/lib//libssl.so.1.0.2 /usr/lib/libssl.so.1.0.0 
 RUN apt-get install locales && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
-CMD nginx && gunicorn \
+CMD ./manage.py createdb && nginx && gunicorn \
        --timeout 60 \
         --bind unix:/tmp/server.sock \
         --workers 3 \

@@ -94,7 +94,11 @@
                       "DATABASE_URL":"[concat('mysql://',parameters('mySqlUsername'),'%40',parameters('mySQLServerName'),':',parameters('mysqlPassword'),'@',parameters('mySQLServerName'),'.mysql.database.azure.com:3306/ok')]",
                        "REDIS_HOST":"[parameters('redisFQDN')]",
                        "REDIS_PASSWORD":"[parameters('redisPassword')]",
-                       "OK_ENV":"azure_dev"
+                       "OK_ENV":"azure_dev",
+                       "toAddress": "",
+                       "sendgridSmtpServer": "",
+                       "sendgridUsername": "",
+                       "sendgridPassword": ""
                     }
                   }
             ],

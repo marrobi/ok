@@ -5,8 +5,9 @@
       "mySqlUsername": {
         "type": "string",
         "minLength": 1,
+        "defaultValue" : "mysqladmin",
         "metadata": {
-          "description": "mySQL USername"
+          "description": "MySQL Username"
         }
       },
       "mySqlAdminPassword": {
@@ -18,7 +19,7 @@
       "mySqlServerName": {
         "type": "string",
         "metadata": {
-          "description": "Unique SQL Server Name"
+          "description": "Unique MySQL Server Name"
         }
       },
       "redisName": {
@@ -37,7 +38,7 @@
         "type": "string",
         "defaultValue": "https://raw.githubusercontent.com/marrobi/ok/marcus_azure/azure/ARM/",
         "metadata": {
-          "description": "Unique redis Name"
+          "description": "Repo base URL"
         }
       }
     },
